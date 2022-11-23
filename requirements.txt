@@ -1,1 +1,5 @@
-pygame
+#Sempre que for importar, linha em branco separando os imports
+#Sempre separa com 2 linhas em branco para começar as classes
+#Sempre uma linha separando os metodos da mesma classe
+#Sempre uma linha em branco entre blocos de logica
+#Tarefa = Implementar Lard_cactus se der o bird - Terça  
