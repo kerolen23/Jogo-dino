@@ -39,7 +39,7 @@ class Game:
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
-        self.obstacle_manager.upadate(self)
+        self.obstacle_manager.update(self)
          
          # Preenche a tela
     def draw(self):
