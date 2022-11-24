@@ -3,7 +3,7 @@
 #Sempre uma linha separando os metodos da mesma classe
 #Sempre uma linha em branco entre blocos de logica
 #Tarefa = Implementar Lard_cactus se der o bird - Terça  
-#Criar um menu de restart"
+#Tarefa = Criar um menu de restart"
 ##Mostrar score atingido e death_count
 #Quando reiniciar, resetar game_spped e score
 #Metodo reutilizado para desenhar textos

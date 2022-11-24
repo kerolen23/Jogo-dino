@@ -22,6 +22,7 @@ class Game:
         self.y_pos_bg = 380
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
+        self.font = pygame.font.Font(FONT_STYLE, 22)
 
     def execute(self):
         self.running = True
@@ -34,8 +35,12 @@ class Game:
 
     def run(self):#Reinicia a partida
         #Executa o jogo
-        # Game loop: events - update - draw
+        #Game loop: events - update - draw
         self.playing = True
+        #Toda vez que o jogo é reiniciado o score é reiniciado 
+        self.score = 0
+        #Toda vez que o jogo é reiniciado o game_speed volta para o valor inicial
+        self.game_speed = 20
         self.obstacle_manager.reset_obstacles()
         while self.playing:
             self.events()
@@ -83,8 +88,8 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
-        font = pygame.font.Font(FONT_STYLE, 22)
-        text = font.render(f"Score: {self.score}", True, (0, 0, 0))
+        
+        text = self.font.render(f"Score: {self.score}", True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
@@ -93,9 +98,13 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
-                self.running = False  
+                self.running = False
+            #Fecha jogo     
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.quit()
+            #Reinicia o jogo           
             elif event.type == pygame.KEYDOWN: #Qualquer tecla
-                self.run()    
+                self.run()        
 
     def show_menu(self):
         self.screen.fill((255, 255, 255))
@@ -103,26 +112,37 @@ class Game:
         half_screen_width = SCREEN_WIDTH // 2
 
         if self.death_count == 0:
-            font = pygame.font.Font(FONT_STYLE, 22)
-            text = font.render("Press any key to start", True, (0,0,0))
+            text = self.font.render("Press any key to start", True, (0,0,0))
             text_rect = text.get_rect()
             text_rect.center = (half_screen_width, half_screen_height)
             self.screen.blit(text, text_rect)
         else:
+            ##Mensagem do Score
+            text = self.font.render("Your Score: " + str(self.score) , True, (0,0,0))
+            text_rect = text.get_rect()
+            text_rect.center = (half_screen_width, half_screen_height)
+            self.screen.blit(text, text_rect)
+            self.screen.blit(ICON, (half_screen_width - 40, half_screen_height - 120))
+            ##Opção para continuar no jogo
+            text_play = self.font.render("Click any key to play again!", True, (255,0,0))
+            text_rect_play = text_play.get_rect()
+            text_rect_play.center = (half_screen_width, half_screen_height + 40)
+            self.screen.blit(text_play, text_rect_play)
+            ##Opção para sair do jogo
+            text_exit = self.font.render("Or click the mouse button to exit the game!", True, (0,0,255))
+            text_rect_exit = text_exit.get_rect()
+            text_rect_exit.center = (half_screen_width, half_screen_height + 80)
+            self.screen.blit(text_exit, text_rect_exit)
              #"Press any key to restart"
              ## Mostrar score atingido e death_count
              # Quando reiniciar, resetar game_speed e score
-             # método reutilizável para desenhar os textos
-            self.screen.blit(ICON, (half_screen_width - 20, half_screen_height - 140))    
+             # método reutilizável para desenhar os textos   
 
         pygame.display.update()
         self.handle_events_on_menu()
 
-    def style(self, font, text, screen, text_rect, screen_blit):
-        font = pygame.font.Font(FONT_STYLE, 22)
-        text = font.render("Press any key to start", True, (0,0,0))
-        screen = screen.fill((255, 255, 255))
-        text_rect = text.get_rect()
-        screen_blit = screen.blit(text, text_rect)
-
-
+        ##def drawText(self, sentence, width, height, text_color):
+            ##text = self.font.render(sentence, True, text_color)
+            ##text_rect = text.get_rect()
+            ##text_rect.center = (half_screen_width + width, half_screen_height + height)
+            ##self.screen.blit(text, text_rect)

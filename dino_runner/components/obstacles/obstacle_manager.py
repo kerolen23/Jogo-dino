@@ -19,7 +19,7 @@ class ObstacleManager:
             elif(cactusType == 1):    
                 self.obstacles.append(Cactus(LARGE_CACTUS))
             else:
-                self.obstacles.append(Bird(BIRD))   
+                self.obstacles.append(Bird())   
                 
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed, self.obstacles)
