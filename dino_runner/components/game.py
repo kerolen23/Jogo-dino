@@ -21,9 +21,9 @@ class Game:
         self.death_count = 0
         self.x_pos_bg = 0
         self.y_pos_bg = 380
+        self.font = pygame.font.Font(FONT_STYLE, 22)
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
-        self.font = pygame.font.Font(FONT_STYLE, 22)
         self.power_up_manager = PowerUpManager()
 
     def execute(self):
@@ -45,7 +45,6 @@ class Game:
         self.score = 0
         #Toda vez que o jogo é reiniciado o game_speed volta para o valor inicial
         self.game_speed = 20
-        self.obstacle_manager.reset_obstacles()
         while self.playing:
             self.events()
             self.update()
@@ -95,7 +94,7 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
-        text = self.font.render(f"Score: {self.score}", True, (0, 0, 0))
+        text = self.font.render("Score: "  + str(self.score), True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
@@ -158,12 +157,16 @@ class Game:
              ## Mostrar score atingido e death_count
              # Quando reiniciar, resetar game_speed e score
              # método reutilizável para desenhar os textos   
+            text_death_count = self.font.render("Death count " + str(self.death_count), True, (0,128,128))
+            text_rect_death_count = text_death_count.get_rect()
+            text_rect_death_count.center = (half_screen_width, half_screen_height + 120)
+            self.screen.blit(text_death_count, text_rect_death_count)
 
         pygame.display.update()
         self.handle_events_on_menu()
 
-        ##def drawText(self, sentence, width, height, text_color):
-            ##text = self.font.render(sentence, True, text_color)
-            ##text_rect = text.get_rect()
-            ##text_rect.center = (half_screen_width + width, half_screen_height + height)
-            ##self.screen.blit(text, text_rect)
+        def drawText(self, sentence, width, height, text_color):
+            text = self.font.render(sentence, True, text_color)
+            text_rect = text.get_rect()
+            text_rect.center = (half_screen_width + width, half_screen_height + height)
+            self.screen.blit(text, text_rect)
