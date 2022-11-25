@@ -7,6 +7,7 @@ from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 FONT_STYLE = 'freesansbold.ttf'
 
+
 class Game:
     def __init__(self):
         pygame.init()

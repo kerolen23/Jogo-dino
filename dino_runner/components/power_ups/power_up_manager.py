@@ -4,6 +4,7 @@ import pygame
 from dino_runner.components.power_ups.shield import Shield
 from dino_runner.components.power_ups.hammer import Hammer
 
+
 class PowerUpManager:
     def __init__(self):
         self.power_ups = []
@@ -20,8 +21,6 @@ class PowerUpManager:
             #Adiciona o hammer
                 self.power_ups.append(Hammer())
         
-
-
     def update(self, score, game_speed, player):
         self.generate_power_up(score)
         for power_up in self.power_ups:
@@ -37,9 +36,7 @@ class PowerUpManager:
                 player.has_power_up = True
                 player.type = power_up.type
                 player.power_up_time = power_up.start_time + (power_up.duration * 1000)
-                self.power_ups.remove(power_up)
-            
-             
+                self.power_ups.remove(power_up)          
         
     def draw(self, screen):
         for power_up in self.power_ups:
