@@ -7,3 +7,6 @@
 ##Mostrar score atingido e death_count
 #Quando reiniciar, resetar game_spped e score
 #Metodo reutilizado para desenhar textos
+#Implementar o Himmer vai remover o obstaculos da tela e shilder só vai passar pelo obstaculo
+#Adicionar algum comportamento diferente
+#Incrementar mais alguma coisa se quiser

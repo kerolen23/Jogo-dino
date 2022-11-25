@@ -1,8 +1,9 @@
 import pygame
 
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
 from dino_runner.components.dinosaur import Dinosaur
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
 FONT_STYLE = 'freesansbold.ttf'
 
@@ -23,6 +24,7 @@ class Game:
         self.player = Dinosaur()
         self.obstacle_manager = ObstacleManager()
         self.font = pygame.font.Font(FONT_STYLE, 22)
+        self.power_up_manager = PowerUpManager()
 
     def execute(self):
         self.running = True
@@ -37,6 +39,8 @@ class Game:
         #Executa o jogo
         #Game loop: events - update - draw
         self.playing = True
+        self.obstacle_manager.reset_obstacles()
+        self.power_up_manager.reset_power_ups()
         #Toda vez que o jogo é reiniciado o score é reiniciado 
         self.score = 0
         #Toda vez que o jogo é reiniciado o game_speed volta para o valor inicial
@@ -60,6 +64,7 @@ class Game:
         self.player.update(user_input)
         self.obstacle_manager.update(self)
         self.update_score()
+        self.power_up_manager.update(self.score, self.game_speed, self.player)
          
     def update_score(self):
         self.score += 1 
@@ -74,6 +79,8 @@ class Game:
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         self.draw_score()
+        self.draw_power_up_time()
+        self.power_up_manager.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
         
@@ -88,11 +95,25 @@ class Game:
         self.x_pos_bg -= self.game_speed
 
     def draw_score(self):
-        
         text = self.font.render(f"Score: {self.score}", True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
         self.screen.blit(text, text_rect)
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            half_screen_height = SCREEN_HEIGHT // 2
+            half_screen_width = SCREEN_WIDTH // 2
+            time_to_show = round((self.player.power_up_time - pygame.time.get_ticks()) / 1000, 2)
+            if time_to_show >= 0:
+             text_exit = self.font.render(f"{self.player.type.capitalize()} enable for seconds", True, (0,0,255))
+             text_rect_exit = text_exit.get_rect()
+             text_rect_exit.center = (half_screen_width, half_screen_height + 160)
+             self.screen.blit(text_exit, text_rect_exit)
+            else:
+               self.player.has_power_up = False
+               self.player.type = DEFAULT_TYPE
+                    
 
     def handle_events_on_menu(self):
         for event in pygame.event.get():
